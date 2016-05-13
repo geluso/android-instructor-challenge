@@ -5,12 +5,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,24 +22,21 @@ public class MainActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private ListAdapter mAdapter;
+    private List<GroceryItem> mGroceryList;
+    private GroceryAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_main);
 
-        Resources res = getResources();
-        String[] groceries = res.getStringArray(R.array.groceries);
-
-        List<GroceryItem> groceryList = new ArrayList<>();
-        for (String grocery : groceries) {
-            GroceryItem item = new GroceryItem(grocery);
-            groceryList.add(item);
-        }
+        loadGroceryList(state);
 
         ListView listView = (ListView) findViewById(R.id.grocery_list);
-        listView.setAdapter(new GroceryAdapter(MainActivity.this, groceryList));
+        mAdapter = new GroceryAdapter(MainActivity.this, mGroceryList);
+        listView.setAdapter(mAdapter);
+
+        processAction();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +51,75 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.d("serial", "attempting serialization");
+        if (mGroceryList != null) {
+            savedInstanceState.putSerializable("list", (Serializable) mGroceryList);
+        }
+    }
+
+    private void loadGroceryList(Bundle state) {
+        Log.d("serial", "accessing saved instance");
+        if (state != null && state.getSerializable("list") != null) {
+            Log.d("serial", "deserializing");
+            mGroceryList = (List<GroceryItem>) state.getSerializable("list");
+        } else {
+            Log.d("serial", "from string array");
+            Resources res = getResources();
+            String[] groceries = res.getStringArray(R.array.groceries);
+
+            mGroceryList = new ArrayList<>();
+            for (String grocery : groceries) {
+                GroceryItem item = new GroceryItem(grocery);
+                mGroceryList.add(item);
+            }
+        }
+
+    }
+
+    private void processAction() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("action")) {
+            Log.d("action", "has action");
+            String action = intent.getStringExtra("action");
+            if (action.equals("create")) {
+                Log.d("action", "create");
+                createItem(intent);
+            } else if (action.equals("update")) {
+                Log.d("action", "update");
+                updateItem(intent);
+            } else if (action.equals("delete")) {
+                Log.d("action", "delete");
+                deleteItem(intent);
+            }
+        }
+
+    }
+
+    private void createItem(Intent intent) {
+        GroceryItem item = GroceryItem.fromIntent(intent);
+        mAdapter.addItem(item);
+    }
+
+    private void updateItem(Intent intent) {
+        GroceryItem item = GroceryItem.fromIntent(intent);
+        int position = intent.getIntExtra("position", -1);
+
+        if (position != -1) {
+            mAdapter.updateItem(position, item);
+        }
+    }
+
+    private void deleteItem(Intent intent) {
+        int position = intent.getIntExtra("position", -1);
+        Log.d("action", "size:" + mAdapter.getCount());
+        if (position != -1) {
+            mAdapter.removeItem(position);
+        }
     }
 
 }

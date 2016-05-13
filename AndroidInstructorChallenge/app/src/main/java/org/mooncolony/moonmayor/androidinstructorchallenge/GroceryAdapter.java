@@ -27,7 +27,7 @@ public class GroceryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the grocery item corresponding to this position
         final GroceryItem item = mGroceries.get(position);
 
@@ -46,6 +46,7 @@ public class GroceryAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditActivity.class);
+                intent.putExtra("position", position);
                 intent.putExtra("name", item.name);
                 intent.putExtra("quantity", item.quantity);
                 intent.putExtra("description", item.description);
@@ -70,6 +71,22 @@ public class GroceryAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public void addItem(GroceryItem item) {
+        mGroceries.add(item);
+        this.notifyDataSetChanged();
+
+    }
+
+    public void updateItem(int position, GroceryItem item) {
+        mGroceries.set(position, item);
+        this.notifyDataSetChanged();
+    }
+
+    public void removeItem(int position) {
+        mGroceries.remove(position);
+        this.notifyDataSetChanged();
     }
 
     @Override
