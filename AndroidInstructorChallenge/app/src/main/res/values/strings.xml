@@ -5,7 +5,10 @@
         <item>Cheese</item>
         <item>Milk</item>
         <item>Bread</item>
-        <item>Extra long specific string with wild wild expectations</item>
+        <item>
+            Extra long specific string with wild wild expectations. Someone must have
+            some extreme preferences if a grocery item ever really got this long.
+        </item>
         <item>Pudding</item>
         <item>Bacon</item>
         <item>Apple</item>
