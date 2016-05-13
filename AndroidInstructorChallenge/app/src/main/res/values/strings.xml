@@ -3,6 +3,8 @@
     <string name="name_label">Name</string>
     <string name="quantity_label">Quantity</string>
     <string name="description_label">Description</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
     <string-array name="groceries">
         <item>Walnuts</item>
         <item>Cheese</item>
