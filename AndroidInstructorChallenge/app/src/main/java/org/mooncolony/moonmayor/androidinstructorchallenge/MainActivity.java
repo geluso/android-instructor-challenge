@@ -1,8 +1,11 @@
 package org.mooncolony.moonmayor.androidinstructorchallenge;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -36,6 +39,19 @@ public class MainActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.grocery_list);
         listView.setAdapter(new GroceryAdapter(MainActivity.this, groceryList));
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                intent.putExtra("isChecked", false);
+                intent.putExtra("name", "");
+                intent.putExtra("description", "");
+
+                startActivity(intent);
+            }
+        });
     }
 
 }
