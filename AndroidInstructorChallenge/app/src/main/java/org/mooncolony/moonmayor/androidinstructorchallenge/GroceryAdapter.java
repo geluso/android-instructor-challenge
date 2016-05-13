@@ -47,6 +47,7 @@ public class GroceryAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditActivity.class);
                 intent.putExtra("name", item.name);
+                intent.putExtra("quantity", item.quantity);
                 intent.putExtra("description", item.description);
 
                 context.startActivity(intent);

@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">AndroidInstructorChallenge</string>
+    <string name="app_name">Grocery List</string>
+    <string name="name_label">Name</string>
+    <string name="quantity_label">Quantity</string>
+    <string name="description_label">Description</string>
     <string-array name="groceries">
         <item>Walnuts</item>
         <item>Cheese</item>
@@ -26,5 +29,4 @@
         <item>Spaghetti</item>
         <item>Spaghetti Sauce</item>
     </string-array>
-    <string name="title_activity_main2">Main2Activity</string>
 </resources>

@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 intent.putExtra("isChecked", false);
-                intent.putExtra("name", "");
-                intent.putExtra("description", "");
+                intent.putExtra("name", "name");
+                intent.putExtra("quantity", 1);
+                intent.putExtra("description", "description");
 
                 startActivity(intent);
             }
