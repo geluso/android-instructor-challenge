@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">AndroidInstructorChallenge</string>
+    <string-array name="groceries">
+        <item>Walnuts</item>
+        <item>Cheese</item>
+        <item>Milk</item>
+        <item>Bread</item>
+        <item>Extra long specific string with wild wild expectations</item>
+        <item>Pudding</item>
+        <item>Bacon</item>
+        <item>Apple</item>
+        <item>Banana</item>
+        <item>Orange Juice</item>
+        <item>Nuts</item>
+        <item>Pommegranite</item>
+        <item>Twix</item>
+        <item>Yogurt</item>
+        <item>Beer</item>
+        <item>Mountain Dew</item>
+        <item>Peanut Butter</item>
+        <item>Gatorade</item>
+        <item>Butter</item>
+        <item>Spaghetti</item>
+        <item>Spaghetti Sauce</item>
+    </string-array>
+</resources>
