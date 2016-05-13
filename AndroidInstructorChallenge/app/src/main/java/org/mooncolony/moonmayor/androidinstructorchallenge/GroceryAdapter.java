@@ -1,5 +1,6 @@
 package org.mooncolony.moonmayor.androidinstructorchallenge;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class GroceryAdapter extends BaseAdapter {
                 intent.putExtra("quantity", item.quantity);
                 intent.putExtra("description", item.description);
 
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent, MainActivity.EDIT_ITEM);
             }
         });
 

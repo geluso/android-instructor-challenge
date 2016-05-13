@@ -17,6 +17,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int CREATE_ITEM = 1;
+    public static final int EDIT_ITEM = 2;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -36,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new GroceryAdapter(MainActivity.this, mGroceryList);
         listView.setAdapter(mAdapter);
 
-        processAction();
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,9 +49,17 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("quantity", 1);
                 intent.putExtra("description", "description");
 
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_ITEM);
             }
         });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("result", "code 1-create 2-edit:" + requestCode);
+
+        if (resultCode == RESULT_OK) {
+            processAction(data);
+        }
     }
 
     @Override
@@ -81,8 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void processAction() {
-        Intent intent = getIntent();
+    private void processAction(Intent intent) {
         if (intent.hasExtra("action")) {
             Log.d("action", "has action");
             String action = intent.getStringExtra("action");

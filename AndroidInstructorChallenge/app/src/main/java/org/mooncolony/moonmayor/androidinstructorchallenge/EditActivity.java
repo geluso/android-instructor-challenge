@@ -42,7 +42,8 @@ public class EditActivity extends AppCompatActivity {
                 intent.putExtra("action", "delete");
                 intent.putExtra("position", position);
 
-                startActivity(intent);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }
