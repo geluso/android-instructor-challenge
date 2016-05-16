@@ -15,15 +15,16 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        Intent intent = getIntent();
-        final int position = intent.getIntExtra("position", -1);
-        String name = intent.getStringExtra("name");
-        int quantity = intent.getIntExtra("quantity", 1);
-        String description = intent.getStringExtra("description");
+        final GroceryData data = GroceryData.getInstance();
 
-        ((EditText) findViewById(R.id.name)).setText(name);
-        ((EditText) findViewById(R.id.quantity)).setText("" + quantity);
-        ((TextView) findViewById(R.id.description)).setText(description);
+        Intent intent = getIntent();
+
+        GroceryItem item = GroceryItem.fromIntent(intent);
+        final int position = intent.getIntExtra("position", -1);
+
+        ((EditText) findViewById(R.id.name)).setText(item.name);
+        ((EditText) findViewById(R.id.quantity)).setText("" + item.quantity);
+        ((TextView) findViewById(R.id.description)).setText(item.description);
 
         Button save = (Button) findViewById(R.id.save);
         Button delete = (Button) findViewById(R.id.delete);
@@ -31,18 +32,31 @@ public class EditActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = ((EditText) findViewById(R.id.name)).getText().toString();
+                String description = ((EditText) findViewById(R.id.description)).getText().toString();
+                int quantity = Integer.parseInt(((EditText) findViewById(R.id.quantity)).getText().toString());
 
+                // Create the item if it didn't exist before
+                GroceryItem item;
+                if (position == -1) {
+                    item = new GroceryItem(name, quantity, description);
+                    data.items.add(item);
+                } else {
+                    // Update the item if it existed before.
+                    item = data.items.get(position);
+                    item.name = name;
+                    item.description = description;
+                    item.quantity = quantity;
+                }
+
+                finish();
             }
         });
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditActivity.this, MainActivity.class);
-                intent.putExtra("action", "delete");
-                intent.putExtra("position", position);
-
-                setResult(RESULT_OK, intent);
+                data.items.remove(position);
                 finish();
             }
         });
